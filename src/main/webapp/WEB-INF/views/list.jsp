@@ -7,6 +7,13 @@
 <body>
 <h1>경매 목록 페이지</h1>
 
+<a href="/">홈으로</a><br>
+
+<!-- ✅ 경매 등록 버튼 추가 -->
+<form action="/create" method="get" style="margin-bottom: 20px;">
+    <input type="submit" value="경매 등록하기">
+</form>
+
 <!-- 경매 목록이 있을 때 -->
 <c:if test="${not empty auctionItems}">
     <p>경매 항목 개수: ${fn:length(auctionItems)}</p> <!-- auctionItems의 크기 출력 -->
@@ -20,6 +27,7 @@
                 <th>상태</th>
                 <th>입찰수</th>
                 <th>최종가</th>
+                <th>수정</th> <!-- 250505 수정 여기에 액션 열 추가 -->
             </tr>
         </thead>
         <tbody>
@@ -33,6 +41,9 @@
                     <td>${item.status}</td>
                     <td>${item.bidCount}</td>
                     <td>${item.finalPrice}</td>
+                 <td>
+                     <a href="/edit?id=${item.id}">수정</a> <!-- 250505 수정을 위한 열 추가-->
+                 </td>
                 </tr>
             </c:forEach>
         </tbody>
@@ -43,7 +54,5 @@
 <c:if test="${empty auctionItems}">
     <p>현재 경매 항목이 없습니다.</p>
 </c:if>
-
-<a href="/">홈으로</a>
 </body>
 </html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.auction.mapper.AuctionEditMapper">
+
+    <!-- 특정 ID의 경매 항목 조회 -->
+    <select id="getItemById" parameterType="com.example.auction.model.AuctionItem">
+        SELECT * FROM auction_db.auction_item
+        WHERE id = #{id}
+    </select>
+
+    <!-- 경매 항목 수정 -->
+    <update id ="update" parameterType="com.example.auction.model.AuctionItem">
+        UPDATE auction_db.auction_item
+        SET
+            title = #{title},
+            location = #{location},
+            appraisal_price = #{appraisalPrice},
+            auction_date = #{auctionDate},
+            status = #{status},
+            bid_count = #{bidCount},
+            final_price = #{finalPrice}
+        WHERE id = #{id}
+    </update>
+
+</mapper>
+
+

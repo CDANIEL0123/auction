@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.auction.mapper.AuctionInsertMapper">
+
+    <insert id="insert" parameterType="com.example.auction.model.AuctionItem">
+        INSERT INTO auction_db.auction_item (title, location, appraisal_price,auction_date, status, bid_count, final_price)
+        VALUES
+        (#{title}, #{location}, #{appraisalPrice}, #{auctionDate}, #{status}, #{bidCount}, #{finalPrice})
+    </insert>
+
+</mapper>
+
+
