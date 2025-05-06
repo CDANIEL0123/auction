@@ -1,75 +1,71 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>        <!-- Core 태그 선언 필수 -->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> <!-- fn:length 등 함수 선언 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<!-- ✅ Bootstrap 및 커스텀 CSS 추가 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
 
 <html>
-<head><title>경매 목록</title></head>
-<body>
-<h1>경매 목록 페이지</h1>
+<head>
+    <title>경매 목록</title>
+</head>
+<body class="bg-light"> <!-- ✅ 배경을 밝게 (Bootstrap 클래스) -->
 
-<a href="/">홈으로</a><br>
+<div class="container py-5"> <!-- ✅ 가운데 정렬 + 여백 -->
+    <h1 class="mb-4 text-center">🏠 경매 목록</h1> <!-- ✅ 타이틀 정렬 및 여백 -->
 
-<!-- ✅ 경매 등록 버튼 추가 -->
-<form action="/create" method="get" style="margin-bottom: 20px;">
-    <input type="submit" value="경매 등록하기">
-</form>
+    <!-- ✅ 상단 버튼 및 검색창 정렬 -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="/" class="btn btn-outline-primary">홈으로</a> <!-- ✅ Bootstrap 버튼 -->
 
-<form method="get" action="/search">
-     <input type="text" name="keyword" placeholder="제목 검색" value="${keyword}">
-     <button type="submit">검색</button>
-</form>
+        <form method="get" action="/search" class="d-flex">
+            <input type="text" name="keyword" class="form-control me-2" placeholder="제목 검색" value="${param.keyword}">
+            <button type="submit" class="btn btn-primary">검색</button>
+        </form>
 
-<!-- 경매 목록이 있을 때 -->
-<c:if test="${not empty auctionItems}">
-    <p>경매 항목 개수: ${fn:length(auctionItems)}</p> <!-- auctionItems의 크기 출력 -->
+        <a href="/create" class="btn btn-success">+ 경매 등록</a> <!-- ✅ 녹색 등록 버튼 -->
+    </div>
 
-
-    <table border="1">
-        <thead>
+    <!-- ✅ 경매 테이블 구성 -->
+    <table class="table table-bordered table-hover bg-white"> <!-- ✅ 테이블 스타일 적용 -->
+        <thead class="table-primary"> <!-- ✅ 헤더 배경색 -->
             <tr>
+                <th>번호</th>
                 <th>제목</th>
                 <th>위치</th>
                 <th>감정가</th>
-                <th>경매일</th>
+                <th>입찰일</th>
                 <th>상태</th>
                 <th>입찰수</th>
-                <th>최종가</th>
-                <th>수정</th> <!-- 250505 수정 여기에 액션 열 추가 -->
-                <th>삭제</th> <!-- 250506 삭제 여기에 액션 열 추가 -->
+                <th>낙찰가</th>
+                <th>관리</th>
             </tr>
         </thead>
         <tbody>
-            <!-- auctionItems 리스트를 반복문으로 출력 -->
             <c:forEach var="item" items="${auctionItems}">
                 <tr>
+                    <td>${item.id}</td>
                     <td>${item.title}</td>
                     <td>${item.location}</td>
-                    <td>${item.appraisalPrice}</td>
+                    <td><fmt:formatNumber value="${item.appraisalPrice}" pattern="#,###" /></td> <!-- ✅ 숫자 포맷팅 -->
                     <td>${item.auctionDate}</td>
                     <td>${item.status}</td>
                     <td>${item.bidCount}</td>
-                    <td>${item.finalPrice}</td>
-                 <td>
-                     <a href="/edit?id=${item.id}">수정</a> <!    -- 250505 수정을 위한 열 추가-->
-                 </td>
-
-
-                 <td>
-                     <form action="/delete" method="post" style="display:inline;">
-                         <input type="hidden" name="id" value="${item.id}" />
-                         <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
-                     </form>
-                 </td>
-
+                    <td><fmt:formatNumber value="${item.finalPrice}" pattern="#,###" /></td> <!-- ✅ 숫자 포맷팅 -->
+                    <td>
+                        <!-- ✅ 관리 버튼 추가 -->
+                        <a href="/edit?id=${item.id}" class="btn btn-sm btn-warning">수정</a>
+                        <form action="/delete" method="post" style="display:inline;" onsubmit="return confirm('정말 삭제할까요?');">
+                            <input type="hidden" name="id" value="${item.id}">
+                            <button type="submit" class="btn btn-sm btn-danger">삭제</button>
+                        </form>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-</c:if>
+</div>
 
-<!-- 경매 목록이 없을 때 -->
-<c:if test="${empty auctionItems}">
-    <p>현재 경매 항목이 없습니다.</p>
-</c:if>
 </body>
 </html>

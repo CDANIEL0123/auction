@@ -60,6 +60,7 @@ public class AuctionController {
         return "redirect:/list";
     }
 
+
     @PostMapping("/delete")
     public String deleteAuction(@RequestParam("id") int id){
         auctionDeleteService.delete(id);
