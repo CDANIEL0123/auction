@@ -14,9 +14,16 @@
     <input type="submit" value="경매 등록하기">
 </form>
 
+<form method="get" action="/search">
+     <input type="text" name="keyword" placeholder="제목 검색" value="${keyword}">
+     <button type="submit">검색</button>
+</form>
+
 <!-- 경매 목록이 있을 때 -->
 <c:if test="${not empty auctionItems}">
     <p>경매 항목 개수: ${fn:length(auctionItems)}</p> <!-- auctionItems의 크기 출력 -->
+
+
     <table border="1">
         <thead>
             <tr>
@@ -28,6 +35,7 @@
                 <th>입찰수</th>
                 <th>최종가</th>
                 <th>수정</th> <!-- 250505 수정 여기에 액션 열 추가 -->
+                <th>삭제</th> <!-- 250506 삭제 여기에 액션 열 추가 -->
             </tr>
         </thead>
         <tbody>
@@ -42,8 +50,17 @@
                     <td>${item.bidCount}</td>
                     <td>${item.finalPrice}</td>
                  <td>
-                     <a href="/edit?id=${item.id}">수정</a> <!-- 250505 수정을 위한 열 추가-->
+                     <a href="/edit?id=${item.id}">수정</a> <!    -- 250505 수정을 위한 열 추가-->
                  </td>
+
+
+                 <td>
+                     <form action="/delete" method="post" style="display:inline;">
+                         <input type="hidden" name="id" value="${item.id}" />
+                         <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                     </form>
+                 </td>
+
                 </tr>
             </c:forEach>
         </tbody>

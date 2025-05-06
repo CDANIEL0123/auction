@@ -1,9 +1,7 @@
 package com.example.auction.controller;
 
 import com.example.auction.model.AuctionItem;
-import com.example.auction.service.AuctionEditService;
-import com.example.auction.service.AuctionItemService;
-import com.example.auction.service.AuctionInsertService;
+import com.example.auction.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +19,8 @@ public class AuctionController {
     private final AuctionItemService auctionItemService;
     private final AuctionInsertService auctionInsertService;
     private final AuctionEditService auctionEditService;
+    private final AuctionDeleteService auctionDeleteService;
+    private final AuctionSearchService auctionSearchService;
 
     @GetMapping("/list")
     public String list(Model model) {
@@ -59,4 +59,29 @@ public class AuctionController {
         auctionEditService.update(item);
         return "redirect:/list";
     }
+
+    @PostMapping("/delete")
+    public String deleteAuction(@RequestParam("id") int id){
+        auctionDeleteService.delete(id);
+        return "redirect:/list";
+    }
+
+
+
+    @GetMapping("/search")
+    public String showAuctionList(@RequestParam("keyword") String keyword, Model model) {
+        List<AuctionItem> auctionItems;
+
+        if (keyword != null) {
+            auctionItems = auctionSearchService.searchByTitle(keyword);
+        } else {
+            auctionItems = auctionItemService.getAllAuctionItems();
+        }
+
+        model.addAttribute("auctionItems", auctionItems);
+        model.addAttribute("keyword", keyword); // 검색어 유지용
+        return "list";
+    }
+
+
 }
