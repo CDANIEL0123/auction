@@ -15,7 +15,7 @@
 <div class="container py-5"> <!-- ✅ 가운데 정렬 + 여백 -->
     <h1 class="mb-4 text-center">🏠 경매 목록</h1> <!-- ✅ 타이틀 정렬 및 여백 -->
 
-    <!-- ✅ 상단 버튼 및 검색창 정렬 -->
+    <!-- ✅ 상단 버튼 및 검색창 정렬 --    >
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="/" class="btn btn-outline-primary">홈으로</a> <!-- ✅ Bootstrap 버튼 -->
 
