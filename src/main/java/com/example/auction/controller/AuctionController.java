@@ -40,6 +40,10 @@ public class AuctionController {
     // 폼 전송 처리
     @PostMapping("/create")
     public String createAuction(@ModelAttribute AuctionItem item) {
+        if(item.getStatus().equals("예정")){
+            item.setBidCount(null);
+            item.setFinalPrice(null);
+        }
         auctionInsertService.create(item);  // 인스턴스를 통해 호출
         return "redirect:/list";     // 목록 페이지로 이동
 

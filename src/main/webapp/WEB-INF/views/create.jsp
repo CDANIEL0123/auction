@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td><label for="bidCount">입찰수</label></td>
-            <td><input type="number" name="bidCount" id="bidCount" required></td>
+            <td><input type="number" name="bidCount" id="bidCount"></td>
         </tr>
         <tr>
             <td><label for="finalPrice">최종가</label></td>
